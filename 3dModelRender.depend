@@ -50,7 +50,7 @@
 	<cmath>
 	<iostream>
 
-1520208678 source:d:\projects\graphics\main.cpp
+1520179055 source:d:\projects\graphics\main.cpp
 	<iostream>
 	"Model.h"
 	"Vector3d.h"
@@ -74,7 +74,7 @@
 	<iostream>
 	<cmath>
 
-1520208360 source:d:\projects\graphics\src\model.cpp
+1520177140 source:d:\projects\graphics\src\model.cpp
 	<iostream>
 	<cstring>
 	<stdio.h>
@@ -126,4 +126,56 @@
 	<thread>
 
 1520174706 source:d:\projects\graphics\src\objparser,cpp.c
+
+1520134223 source:d:\projects\graphics backup\graphics\src\face.cpp
+	"Face.h"
+
+1520174823 d:\projects\graphics backup\graphics\include\face.h
+	"Vector3d.h"
+
+1520162756 d:\projects\graphics backup\graphics\include\vector3d.h
+	<iostream>
+
+1520177140 source:d:\projects\graphics backup\graphics\src\model.cpp
+	<iostream>
+	<cstring>
+	<stdio.h>
+	"Model.h"
+	"Vector3d.h"
+	"Face.h"
+
+1520175264 d:\projects\graphics backup\graphics\include\model.h
+	"Face.h"
+	"Vector3d.h"
+	<vector>
+	<array>
+	"SFML/Graphics.hpp"
+
+1520174537 source:d:\projects\graphics backup\graphics\src\rasterization.cpp
+	"Model.h"
+	<algorithm>
+
+1520174386 source:d:\projects\graphics backup\graphics\src\renderer.cpp
+	"Model.h"
+	<thread>
+
+1520174180 source:d:\projects\graphics backup\graphics\src\transformation.cpp
+	"Model.h"
+	<cmath>
+	<thread>
+
+1520162756 source:d:\projects\graphics backup\graphics\src\vector3d.cpp
+	"Vector3d.h"
+	<iostream>
+	<cmath>
+
+1520162756 source:d:\projects\graphics backup\graphics\src\viewtransform.cpp
+	"Model.h"
+	<iostream>
+
+1520317658 source:d:\projects\graphics backup\graphics\main.cpp
+	<iostream>
+	"Model.h"
+	"Vector3d.h"
+	"SFML/Graphics.hpp"
 
