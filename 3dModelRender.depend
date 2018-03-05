@@ -1,0 +1,129 @@
+# depslib dependency file v1.0
+1519135915 source:e:\3dmodelrender\src\face.cpp
+	"face.h"
+
+1519144257 e:\3dmodelrender\include\face.h
+
+1519135915 source:e:\3dmodelrender\src\vector3d_.cpp
+	"vector3d_.h"
+
+1519135915 e:\3dmodelrender\include\vector3d_.h
+	<cmath>
+
+1519135915 source:e:\3dmodelrender\src\vertex.cpp
+	"vertex.h"
+
+1519143056 e:\3dmodelrender\include\vertex.h
+	<vector3d_.h>
+
+1519225389 source:e:\3dmodelrender\main.cpp
+	<iostream>
+	<model.h>
+	<vector3d_.h>
+
+1519220157 e:\3dmodelrender\include\model.h
+	<vertex.h>
+	<face.h>
+	<vector3d_.h>
+
+1519224766 source:e:\3dmodelrender\src\model.cpp
+	"model.h"
+	<iostream>
+	<cstring>
+	<vector3d_.h>
+	<stdio.h>
+
+1519641343 source:d:\projects\graphics\src\vertex.cpp
+	"Vertex.h"
+
+1519641343 d:\projects\graphics\include\vertex.h
+	"Vector3d.h"
+
+1520162756 d:\projects\graphics\include\vector3d.h
+	<iostream>
+
+1519626253 source:d:\projects\graphics\src\vector2d.cpp
+	"Vector2d.h"
+	<iostream>
+
+1519626335 d:\projects\graphics\include\vector2d.h
+	<cmath>
+	<iostream>
+
+1520208678 source:d:\projects\graphics\main.cpp
+	<iostream>
+	"Model.h"
+	"Vector3d.h"
+	"SFML/Graphics.hpp"
+
+1520175264 d:\projects\graphics\include\model.h
+	"Face.h"
+	"Vector3d.h"
+	<vector>
+	<array>
+	"SFML/Graphics.hpp"
+
+1520174823 d:\projects\graphics\include\face.h
+	"Vector3d.h"
+
+1520134223 source:d:\projects\graphics\src\face.cpp
+	"Face.h"
+
+1520162756 source:d:\projects\graphics\src\vector3d.cpp
+	"Vector3d.h"
+	<iostream>
+	<cmath>
+
+1520208360 source:d:\projects\graphics\src\model.cpp
+	<iostream>
+	<cstring>
+	<stdio.h>
+	"Model.h"
+	"Vector3d.h"
+	"Face.h"
+
+1519640398 d:\projects\graphics\include\vector3.h
+	<cmath>
+	<iostream>
+
+1520088247 d:\projects\graphics\include\vector2.h
+	<cmath>
+	<iostream>
+
+1520088247 source:d:\projects\graphics\src\vector2.cpp
+	"Vector2.h"
+	<iostream>
+
+1519640154 source:d:\projects\graphics\src\vector3.cpp
+	"Vector3.h"
+	<iostream>
+
+1520162756 source:d:\projects\graphics\src\viewtransform.cpp
+	"Model.h"
+	<iostream>
+
+1520088247 source:d:\projects\graphics\src\testrender.cpp
+	"Model.h"
+	<cmath>
+	<graphics.h>
+	<conio.h>
+
+1520162756 source:d:\projects\graphics\src\render.cpp
+	"Model.h"
+	"SFML/Graphics.hpp"
+
+1520174180 source:d:\projects\graphics\src\transformation.cpp
+	"Model.h"
+	<cmath>
+	<thread>
+
+1520174537 source:d:\projects\graphics\src\rasterization.cpp
+	"Model.h"
+	<algorithm>
+
+1520174386 source:d:\projects\graphics\src\renderer.cpp
+	"Model.h"
+	<thread>
+
+1520174706 source:d:\projects\graphics\src\objparser,cpp.c
+
