@@ -35,10 +35,18 @@ public:
 
 
 private:
-//These are the attributes and tables we need for Z-BUFFER AND SHADING say the Rasterization Technique
+//These are the attributes and tables we need for Z-BUFFER
     float *zBuffer = new float[windowY * windowX];
     sf::Color *colorBuffer = new sf::Color[windowY * windowX];
     sf::Vertex vertex; //< to draw vertex -- used in drawModel() in renderer.cpp
+
+public:
+//These are the attributes required for ILLUMINATION AND SHADING
+    Vector3d lightSource;
+    float Iamb; //< ambient light intensity
+    float Ipoint; //< point source intensity
+    float Ka, Kd, Ks; //< reflection coefficients respectively for ambient, diffused and specular reflection
+    float ns; //< specular reflection parameter
 
 
 public:

@@ -12,12 +12,12 @@ using namespace sf;
 int main()
 {
 
-    Vector3d viewRefPoint(-5,0,5);
+    Vector3d viewRefPoint(0,0,5);
     Vector3d lookAtPoint(1,1,1);
     Vector3d viewUp(0,1,0);
     float Zvp = 10;
     float Zprp = 3;
-    float scaleFactor = 10;
+    float scaleFactor = 12;
 
     Model model;
     const char filename[] = "model22.obj";

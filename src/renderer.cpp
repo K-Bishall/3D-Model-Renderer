@@ -1,5 +1,7 @@
 #include "Model.h"
-#include<thread>
+
+#include <cmath>
+#include <thread>
 
 void Model::renderModel()
 {
@@ -14,23 +16,34 @@ void Model::renderModel()
 
 void Model::render(int fcountMin, int fcountMax)
 {
-
+//--variables for looping over all the points in a triangle--//
     int i,py,px; //< loop counters
     int index;
     Vector3d v0,v1,v2; //< vertices of a triangle
+    Vector3d n0,n1,n2; //< normals at the vertices
     Face f;
     BoundingBox bbox;
     float yMin, yMax, xMin, xMax;
 
+//--variables for interpolation and z buffer--//
     float area, w0, w1, w2;
     float pz; //< depth of point P(x,y)
 
-//    int r=255,g=255,b=255; //< color values
-    sf::Color color;
-     sf::Color c0(139,0,139),c1(139,0,139),c2(139,0,139);
-    // sf::Color c0,c1,c2;
+//--variables for illumination and shading--//
+    lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
+    Vector3d N; //< normal at the point
+    Vector3d L; //< vector from point to light source
+    Vector3d V; //< vector from point to camera
+    Vector3d H; //< unit vector of (L+V)
+    Vector3d P; //< position vector of point P
+    float Iconst = Ka * Iamb; //< this is constant for all points
+    float dL; //< distance between point and light source
+    float Ip; //< intensity at the point
 
-    //For each triangle in the model
+
+    int r = 139, g = 0, b = 139; //< RGB value for color -- FOR NOW THE MODEL IS CONSIDERED TO HAVE SINGLE COLOR
+    int r1,g1,b1;
+//-- NOW IS THE TIME TO ITERATE OVER ALL THE TRIANGLEs --//
     for(i = fcountMin; i < fcountMax; i++)
     {
         f = faceTable[i];
@@ -44,6 +57,7 @@ void Model::render(int fcountMin, int fcountMax)
         //iterate over all the pixels (x,y) inside the triangle
         for(py = yMin; py <= yMax; py++)
         {
+            //if p(x,y) is outside window boundry ignore it
             if(py <= 0 || py >= windowY)
                 continue;
             for(px = xMin; px <= xMax; px++)
@@ -52,14 +66,16 @@ void Model::render(int fcountMin, int fcountMax)
                 if(px <= 0 || px >= windowX)
                     continue;
 
+                //to check if the point (px,py) inside the triangle
                 area = edgeFunction(v0,v1,v2.x,v2.y); //< Area of triangle * 2
-                w0 = edgeFunction(v0,v1,px , py);
-                w1 = edgeFunction(v1,v2,px , py);
-                w2 = edgeFunction(v2,v0,px , py);
+                w0 = edgeFunction(v0,v1,px,py);
+                w1 = edgeFunction(v1,v2,px,py);
+                w2 = edgeFunction(v2,v0,px,py);
 
                 //if point P(x,y) is inside the triangle
                 if(w0 >= 0 && w1 >= 0 && w2 >= 0)
                 {
+                    //parameters for interpolation of vertex attributes : Z-depth, Normal
                     //baricentric coordinates are given as
                     w0 /= area;
                     w1 /= area;
@@ -70,18 +86,40 @@ void Model::render(int fcountMin, int fcountMax)
                     pz = w0/v0.z + w1/v1.z + w2/v2.z;
                     pz = 1/pz;
 
-                    //check if this point is nearer to camera
+                    //check if this point is nearer to camera - if yes place its z value in zBuffer
                     if(pz < zBuffer[py*windowX + px])
                     {
                         index = py*windowX + px;
-                        //update zBuffer and colorBuffer
+                        //update zBuffer
                         zBuffer[index] = pz;
 
-                        // if(w0 == 0 || w1 == 0 || w2 ==0)
-                        color.r = pz * (w0 * c0.r/v0.z + w1 * c1.r/v1.z + w2 * c2.r/v2.z);
-                        color.g = pz * (w0 * c0.g/v0.z + w1 * c1.g/v1.z + w2 * c2.g/v2.z);
-                        color.b = pz * (w0 * c0.b/v0.z + w1 * c1.b/v1.z + w2 * c2.b/v2.z);
-                        colorBuffer[index] = color;
+                        // And Now we are going to calculate INTENSITY AT THE POINT
+                        //Let's first find out Interpolated Normal at the point
+                        n0 = normalTable[f.n0] / v0.z;
+                        n1 = normalTable[f.n1] / v1.z;
+                        n2 = normalTable[f.n2] / v2.z;
+
+                        N = n0.multiply(w0) + n1.multiply(w1) + n2.multiply(w2);
+                        N = N.multiply(pz); //< this is the normal vector at the point
+
+                        //Calculate the stuffs
+                        P = Vector3d(px,py,pz);
+                        V = P - viewRef;
+                        L = P - lightSource;
+                        H = (L + V).unitVector();
+                        dL = L.getMagnitude();
+                        dL = pow(dL,2);
+
+                        //And here is the Intensity at the point
+                        Ip = Iconst + (Kd * Ipoint / dL * N.dotProduct(L)) + (Ks * Ipoint * pow(N.dotProduct(H),ns));
+
+                        //Intensity of RGB
+                        r1 = round(r/255 * Ip);
+                        g1 = round(g/255 * Ip);
+                        b1 = round(b/255 * Ip);
+
+                        //store the color in color buffer
+                        colorBuffer[index] = sf::Color(r,g,b);
                     }
                 }
             }
