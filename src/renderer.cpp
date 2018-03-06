@@ -47,9 +47,9 @@ void Model::render(int fcountMin, int fcountMax)
     for(i = fcountMin; i < fcountMax; i++)
     {
         f = faceTable[i];
-        v0 = viewTransform(vertexTable[f.v0]);
-        v1 = viewTransform(vertexTable[f.v1]);
-        v2 = viewTransform(vertexTable[f.v2]);
+        v0 = viewTransform(vertexTable[f.v0]); project(v0);
+        v1 = viewTransform(vertexTable[f.v1]); project(v1);
+        v2 = viewTransform(vertexTable[f.v2]); project(v2);
 
         bbox = getBoundry(v0,v1,v2);
         yMin = bbox.yMin, yMax = bbox.yMax, xMin = bbox.xMin, xMax = bbox.xMax;
@@ -103,20 +103,20 @@ void Model::render(int fcountMin, int fcountMax)
                         N = N.multiply(pz); //< this is the normal vector at the point
 
                         //Calculate the stuffs
-                        P = Vector3d(px,py,pz);
-                        V = P - viewRef;
-                        L = P - lightSource;
+                        P = Vector3d(px,py,pz); toView(P);
+                        // V = viewRef - P;
+                        L = lightSource - P;
                         H = (L + V).unitVector();
                         dL = L.getMagnitude();
-                        dL = pow(dL,2);
-
+                        dL = dL * dL;
+                        // std::cout<<dL<<std::endl;
                         //And here is the Intensity at the point
                         Ip = Iconst + (Kd * Ipoint / dL * N.dotProduct(L)) + (Ks * Ipoint * pow(N.dotProduct(H),ns));
-
+                        // std::cout<<"I "<<Ip<<std::endl;
                         //Intensity of RGB
-                        r1 = round(r/255 * Ip);
-                        g1 = round(g/255 * Ip);
-                        b1 = round(b/255 * Ip);
+                        r1 = round(r * Ip);
+                        g1 = round(g * Ip);
+                        b1 = round(b * Ip);
 
                         //store the color in color buffer
                         colorBuffer[index] = sf::Color(r,g,b);

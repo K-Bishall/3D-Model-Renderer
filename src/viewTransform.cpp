@@ -72,19 +72,32 @@ Vector3d Model::viewTransform(const Vector3d &tempV)
     tempViewV.y *= scaleFactor;
     tempViewV.z *= scaleFactor;
 
-    //Now is the time for PERSPECTIVE PROJECTION of ViewCoordinate point
-    float h = dp / (Zprp - tempViewV.z);
-    tempViewV.x /= h;
-    tempViewV.y /= h;
-
-    //translate projected point to SFML window
-    tempViewV.x += windowX/3;
-    tempViewV.y += windowY/3;
-
 /*
     std::cout<<"View ";
     tempViewV.printData();
     std::cout<<std::endl<<std::endl;
 */
     return tempViewV;
+}
+
+void Model::project(Vector3d &v)
+{
+
+    //Now is the time for PERSPECTIVE PROJECTION of ViewCoordinate point
+    h = dp / (Zprp - v.z);
+    v.x /= h;
+    v.y /= h;
+
+    //translate projected point to SFML window
+    v.x += windowX/2;
+    v.y += windowY/2;
+}
+
+void Model::toView(Vector3d &v)
+{
+    v.x -= windowX/2;
+    v.y -= windowY/2;
+
+    v.x *= h;
+    v.y *= h;
 }

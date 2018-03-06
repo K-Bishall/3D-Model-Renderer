@@ -9,6 +9,7 @@
 #include "SFML/Graphics.hpp"
 
 const int windowX = 1024, windowY = 576;
+const float INF = 1.0e10;
 
 /**
  * @brief Class Model is everything for a model to load and transform
@@ -26,7 +27,7 @@ private:
     Vector3d u, v, n; //< unit vectors uvn for view plane
 
     // values calculated in world to view transform
-    float dp, val1, val2, val3; //< calculated in setViewCoordinate and used in viewTransform
+    float h, dp, val1, val2, val3; //< calculated in setViewCoordinate and used in viewTransform
 
     int vertexCount, faceCount, normalCount;
 
@@ -63,6 +64,8 @@ public:
     void setViewCoordinate(Vector3d &, Vector3d &, Vector3d &, float, float, float);
     //defined in viewTransform.cpp
     Vector3d viewTransform(const Vector3d &);
+    void project(Vector3d &);
+    void toView(Vector3d &);
 
     void printData();
 

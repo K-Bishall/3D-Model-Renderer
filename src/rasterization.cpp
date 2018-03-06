@@ -3,8 +3,6 @@
 
 #include<algorithm>
 
-const float INF = 1.0e10;
-
 
 /**
  * @brief This function initializes Z Buffer and Color Buffer
