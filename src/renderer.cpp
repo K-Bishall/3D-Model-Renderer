@@ -95,11 +95,11 @@ void Model::render(int fcountMin, int fcountMax)
 
                         // And Now we are going to calculate INTENSITY AT THE POINT
                         //Let's first find out Interpolated Normal at the point
-                        n0 = normalTable[f.n0] / v0.z;
-                        n1 = normalTable[f.n1] / v1.z;
-                        n2 = normalTable[f.n2] / v2.z;
+                        n0 = normalTable[f.n0];
+                        n1 = normalTable[f.n1];
+                        n2 = normalTable[f.n2];
 
-                        N = n0.multiply(w0) + n1.multiply(w1) + n2.multiply(w2);
+                        N = n0.multiply(w0/v0.z) + n1.multiply(w1/v1.z) + n2.multiply(w2/v2.z);
                         N = N.multiply(pz); //< this is the normal vector at the point
 
                         //Calculate the stuffs
@@ -112,14 +112,14 @@ void Model::render(int fcountMin, int fcountMax)
                         // std::cout<<dL<<std::endl;
                         //And here is the Intensity at the point
                         Ip = Iconst + (Kd * Ipoint / dL * N.dotProduct(L)) + (Ks * Ipoint * pow(N.dotProduct(H),ns));
-                        // std::cout<<"I "<<Ip<<std::endl;
+                        //std::cout<<"I "<<Ip<<std::endl;
                         //Intensity of RGB
-                        r1 = round(r * Ip);
-                        g1 = round(g * Ip);
-                        b1 = round(b * Ip);
+                        r1 = r * Ip;
+                        g1 = g * Ip;
+                        b1 = b * Ip;
 
                         //store the color in color buffer
-                        colorBuffer[index] = sf::Color(r,g,b);
+                        colorBuffer[index] = sf::Color(r1,g1,b1);
                     }
                 }
             }

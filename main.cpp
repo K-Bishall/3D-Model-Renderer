@@ -20,13 +20,13 @@ int main()
     float scaleFactor = 12;
 
     Model model;
-    const char filename[] = "model.obj";
+    const char filename[] = "model22.obj";
     model.setViewCoordinate(viewRefPoint, lookAtPoint,viewUp,Zvp, Zprp, scaleFactor);
     model.loadModel(filename);
 
-    model.lightSource = Vector3d(-100,100,100);
-    model.Iamb = INF;
-    model.Ipoint = INF;
+    model.lightSource = Vector3d(100,100,100);
+    model.Iamb = 10000;
+    model.Ipoint = 10000;
     model.Ka = 0.75;
     model.Kd = 0.95;
     model.Ks = 0.3;
@@ -48,8 +48,8 @@ int main()
 
 
         window.clear(Color::Black);
-     //   model.rotate(2);
-       // model.renderModel();
+       // model.rotate(2);
+        //model.renderModel();
         model.drawModel(window);
         window.display();
     }
