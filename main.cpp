@@ -10,41 +10,31 @@ using namespace sf;
 int main()
 {
     Model model;
-    const char filename[] = "dragon1.obj";
+    const char filename[] = "A380.obj";
     model.loadModel(filename);
-  //  model.printData();
 
     model.normalize();
-//    model.printData();
     model.autoFocus();
-  //  model.camera.y += 100;
-  //  model.printData();
- //   model.camera = Vector3d(100,100,100);
+
 
     model.setViewCoordinate();
- //   model.printData();
-    model.scaleFactor = 20;
+    model.scaleFactor = 10;
 
     model.viewTransform();
-  //  model.printData();
 
-    model.lightSource = Vector3d(100,50,100);
-    model.Ipoint = 5;
+    model.lightSource = Vector3d(-100,100,100);
+    model.Ipoint = 3;
     model.Iamb = 1;
-    model.Ka = 0.5;
-    model.Kd = 1;
-    model.Ks = 0.9;
-    model.ns = 10;
-
-  //  model.rotate(30);
-  //  model.printData();
+    model.Ka = 0.75;
+    model.Kd = 0.9;
+    model.Ks = 0.3;
+    model.ns = 16;
 
     RenderWindow window;
     window.create(VideoMode(windowX,windowY),"3d Model Renderer");
-    window.setFramerateLimit(10);
+    window.setFramerateLimit(30);
     window.setKeyRepeatEnabled(false);
 
- //   model.rotate(60);
     model.renderModel();
 
 

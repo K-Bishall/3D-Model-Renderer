@@ -34,16 +34,15 @@ void Model::render(int fcountMin, int fcountMax)
     float pz; //< depth of point P(x,y)
 
 //--variables for illumination and shading--//
-    lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
     Vector3d N; //< normal at the point
     Vector3d L; //< vector from point to light source
     Vector3d V; //< vector from point to camera
     Vector3d R; //< reflection vector
     Vector3d H; //< unit vector of (L+V)
     Vector3d P; //< position vector of point P
-    float Iconst = Ka * Iamb; //< this is constant for all points
     float dL; //< distance between point and light source
     float Ip; //< intensity at the point
+    lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
     Vector3d viewer = viewTransform(camera);
 
     // float I0, I1, I2;
@@ -57,37 +56,7 @@ void Model::render(int fcountMin, int fcountMax)
         v0 = project(vertexTable[f.v0]); //v0.printData(); std::cout<<std::endl;
         v1 = project(vertexTable[f.v1]); //v1.printData(); std::cout<<std::endl;
         v2 = project(vertexTable[f.v2]); //v1.printData(); std::cout<<std::endl;
-/*
-        n0 = normalTable[f.n0];
-        P = vertexTable[f.v0];
-        N = n0.unitVector();
-        L = (lightSource - P);
-        dL = L.getMagnitude();
-        V = (viewer - P);
-        H = (L + V).unitVector();
-        dL = 1 + dL * dL;
-        I0 = Ka + (Kd * Ipoint / dL * N.dot(L.unitVector())) + (Ks * Ipoint / dL * pow(N.dot(H),ns));
 
-        n1 = normalTable[f.n1];
-        P = vertexTable[f.v1];
-        N = n1.unitVector();
-        L = (lightSource - P);
-        dL = L.getMagnitude();
-        V = (viewer - P);
-        H = (L + V).unitVector();
-        dL = 1 + dL * dL;
-        I1 = Ka + (Kd * Ipoint / dL * N.dot(L.unitVector())) + (Ks * Ipoint / dL * pow(N.dot(H),ns));
-
-        n2 = normalTable[f.n2];
-        P = vertexTable[f.v2];
-        N = n2.unitVector();
-        L = (lightSource - P);
-        dL = L.getMagnitude();
-        V = (viewer - P);
-        H = (L + V).unitVector();
-        dL = 1 + dL*100;
-        I2 = Ka + (Kd * Ipoint / dL * N.dot(L.unitVector())) + (Ks * Ipoint / dL * pow(N.dot(H),ns));
-*/
         bbox = getBoundry(v0,v1,v2);
         yMin = bbox.yMin, yMax = bbox.yMax, xMin = bbox.xMin, xMax = bbox.xMax;
 
@@ -105,9 +74,9 @@ void Model::render(int fcountMin, int fcountMax)
 
                 //to check if the point (px,py) inside the triangle
                 area = edgeFunction(v0,v1,v2.x,v2.y); //< Area of triangle * 2
-                w0 = edgeFunction(v0,v1,px,py);
-                w1 = edgeFunction(v1,v2,px,py);
-                w2 = edgeFunction(v2,v0,px,py);
+                w0 = edgeFunction(v0,v1,px + 0.5, py + 0.5);
+                w1 = edgeFunction(v1,v2,px + 0.5, py + 0.5);
+                w2 = edgeFunction(v2,v0,px + 0.5, py + 0.5);
 
                 //if point P(x,y) is inside the triangle
                 if(w0 >= 0 && w1 >= 0 && w2 >= 0)
@@ -140,31 +109,38 @@ void Model::render(int fcountMin, int fcountMax)
                         N = N.multiply(pz); //< this is the normal vector at the point
 
                         //Calculate the stuffs
-                        P = Vector3d(px,py,pz); toView(P);
-                       // P.printData(); std::cout<<std::endl;
+                        P = Vector3d(px + 0.5, py + 0.5, pz); toView(P);
                         N = N.unitVector();
-                        L = (lightSource - P).unitVector();
-                        dL = L.getMagnitude();
-                        //std::cout<<dL<<std::endl;
+                        L = (lightSource - P);
+                        // dL = L.getMagnitude();
                         V = (viewer - P).unitVector();
                         R = N.multiply(2 * N.dot(L)) - L;
                         R = R.unitVector();
+                        H = (L + V).unitVector();
                         L = L.unitVector();
-                        // H = (L + V).unitVector();
-                        dL = 1 + dL * dL;
-                        //std::cout<<dL<<std::endl;
+                        // dL = 1 + dL * dL;
+
                         //And here is the Intensity at the point
-                        Ip = Iamb * Ka + (Kd * Ipoint / dL * abs(N.dot(L))) + (Ks * Ipoint / dL * pow(V.dot(R),ns));
-                        //std::cout<<"I "<<Ip<<std::endl;
+                        Ip = Iamb * Ka + (Kd * Ipoint * abs(N.dot(L))) + (Ks * Ipoint * pow(N.dot(H),ns));
+
                         //Intensity of RGB
                         r1 = r * Ip;
                         g1 = g * Ip;
                         b1 = b * Ip;
 
-                        // Ip = pz * (I0*w0/v0.z + I1*w1/v1.z + I2*w2/v2.z);
-                        // r1 = r * Ip;
-                        // g1 = g * Ip;
-                        // b1 = b * Ip;
+                        if(r1 > 255)
+                            r1 = 255;
+                        else if(r1 < 0)
+                            r1 = 0;
+                        if(g1 > 255)
+                            g1 = 255;
+                        else if(g1 < 0)
+                            g1 = 0;
+                        if(b1 > 255)
+                            b1 = 255;
+                        else if(b1 < 0)
+                            b1 = 0;
+
                         //store the color in color buffer
                         colorBuffer[index] = sf::Color(r1,g1,b1);
                     }

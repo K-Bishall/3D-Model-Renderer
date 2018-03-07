@@ -4,6 +4,7 @@
 
 using std::cout;
 using std::endl;
+using std::max;
 
 /**
  * @brief Convert model into unit cube and then to cube in range 0 to 100. THis is done to define any model in
@@ -12,24 +13,33 @@ using std::endl;
 void Model::normalize ()
 {
     //xvmin = yvmin = zvmin = 0;
-    float xvmax = 100, yvmax = 100, zvmax = 100;
-    float sx = xvmax / (xmax - xmin);
-    float sy = yvmax / (ymax - ymin);
-    float sz = zvmax / (zmax - zmin);
+    float vmax = 100;
+    float autoScale;
+    float wmax = max(xmax,max(ymax,zmax));
+    if(wmax == xmax)
+        autoScale = vmax / (xmax - xmin);
+    else if(wmax == ymax)
+        autoScale = vmax / (ymax - ymin);
+    else
+        autoScale = vmax / (zmax - zmin);
+
+    // float sx = xvmax / (xmax - xmin);
+    // float sy = yvmax / (ymax - ymin);
+    // float sz = zvmax / (zmax - zmin);
 
     int i;
     for(i = 0; i < vertexCount; i++) {
         Vector3d &v = vertexTable[i];
-        v.x = (v.x - xmin) * sx;
-        v.y = (v.y - ymin) * sy;
-        v.z = (v.z - zmin) * sz;
+        v.x = (v.x - xmin) * autoScale;
+        v.y = (v.y - ymin) * autoScale;
+        v.z = (v.z - zmin) * autoScale;
     }
 
     //At this point our model is defined in 100x100x100 cube
     //so
-    xmax = (xmax - xmin) * sx;
-    ymax = (ymax - ymin) * sy;
-    zmax = (zmax - zmin) * sz;
+    xmax = (xmax - xmin) * autoScale;
+    ymax = (ymax - ymin) * autoScale;
+    zmax = (zmax - zmin) * autoScale;
     xmin = ymin = zmin = 0;
 }
 
