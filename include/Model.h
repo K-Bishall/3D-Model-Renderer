@@ -68,6 +68,7 @@ public:
     void autoFocus();
     void setViewCoordinate();
     void viewTransform();
+    Vector3d viewTransform(Vector3d &);
     Vector3d project(const Vector3d &);
     void toView(Vector3d &);
 

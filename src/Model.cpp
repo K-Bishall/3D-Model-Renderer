@@ -101,18 +101,12 @@ void Model::printData()
         normalTable[i].printData();
         cout<<endl;
     }
-/*
+
     for(i = 0; i< faceCount; i++)
     {
-        cout<<"f ";
-        faceTable[i].vn1.printData();
-        cout<<" ";
-        faceTable[i].vn2.printData();
-        cout<<" ";
-        faceTable[i].vn2.printData();
-
-        cout<<endl;
+        cout<<"f "<<faceTable[i].v0<<" "<<faceTable[i].v1<<" "<<faceTable[i].v0<<endl;
     }
-*/
+    cout<<"xmax "<<xmax<<" ymax "<<ymax<<" zmax "<<zmax<<endl;
+    cout<<"xmin "<<xmin<<" ymin "<<ymin<<" zmin "<<zmin<<endl<<endl;
 }
 

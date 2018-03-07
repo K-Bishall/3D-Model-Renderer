@@ -39,7 +39,7 @@
 1519641343 d:\projects\graphics\include\vertex.h
 	"Vector3d.h"
 
-1520395114 d:\projects\graphics\include\vector3d.h
+1520416604 d:\projects\graphics\include\vector3d.h
 	<iostream>
 
 1519626253 source:d:\projects\graphics\src\vector2d.cpp
@@ -50,13 +50,13 @@
 	<cmath>
 	<iostream>
 
-1520409061 source:d:\projects\graphics\main.cpp
+1520426362 source:d:\projects\graphics\main.cpp
 	<iostream>
 	"Model.h"
 	"Vector3d.h"
 	"SFML/Graphics.hpp"
 
-1520405148 d:\projects\graphics\include\model.h
+1520416305 d:\projects\graphics\include\model.h
 	"Face.h"
 	"Vector3d.h"
 	<vector>
@@ -69,12 +69,12 @@
 1520134223 source:d:\projects\graphics\src\face.cpp
 	"Face.h"
 
-1520391406 source:d:\projects\graphics\src\vector3d.cpp
+1520416449 source:d:\projects\graphics\src\vector3d.cpp
 	"Vector3d.h"
 	<iostream>
 	<cmath>
 
-1520406337 source:d:\projects\graphics\src\model.cpp
+1520417507 source:d:\projects\graphics\src\model.cpp
 	<iostream>
 	<cstring>
 	<stdio.h>
@@ -98,7 +98,7 @@
 	"Vector3.h"
 	<iostream>
 
-1520407500 source:d:\projects\graphics\src\viewtransform.cpp
+1520425377 source:d:\projects\graphics\src\viewtransform.cpp
 	"Model.h"
 	<iostream>
 
@@ -112,16 +112,15 @@
 	"Model.h"
 	"SFML/Graphics.hpp"
 
-1520409274 source:d:\projects\graphics\src\transformation.cpp
+1520417978 source:d:\projects\graphics\src\transformation.cpp
 	"Model.h"
 	<cmath>
-	<thread>
 
-1520357092 source:d:\projects\graphics\src\rasterization.cpp
+1520420802 source:d:\projects\graphics\src\rasterization.cpp
 	"Model.h"
 	<algorithm>
 
-1520406654 source:d:\projects\graphics\src\renderer.cpp
+1520426907 source:d:\projects\graphics\src\renderer.cpp
 	"Model.h"
 	<cmath>
 	<thread>

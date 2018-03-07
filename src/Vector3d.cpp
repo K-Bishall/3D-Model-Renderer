@@ -41,8 +41,8 @@ Vector3d Vector3d::operator + (const Vector3d &B)
 
 //operator / overloaded for division by scalar
 Vector3d Vector3d::operator / (float scalar)
-{ return Vector3d(x / scalar, y / scalar, z / scalar);}
+{ return Vector3d(x/scalar, y/scalar, z/scalar);}
 
 //multiply by scalar
-Vector3d Vector3d::operator * (float scalar)
+Vector3d Vector3d::multiply (float scalar)
 { return Vector3d(x * scalar, y * scalar, z * scalar);}

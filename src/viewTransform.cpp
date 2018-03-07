@@ -36,8 +36,8 @@ void Model::normalize ()
 // to auto adjust the camera and view plane
 void Model::autoFocus()
 {
-    camera = Vector3d(xmax/2, ymax/2,2*zmax - zmin);
-    lookAt = Vector3d(xmax/2, ymax/2, zmax/2);
+    camera = Vector3d((xmax + xmin)/2, (ymax + ymin)/2,(2*zmax + zmin));
+    lookAt = Vector3d((xmax + xmin)/2, (ymax + ymin)/2, zmax);
     viewUp = Vector3d(0,1,0);
     Zprp = camera.z;
 }
@@ -50,12 +50,6 @@ void Model::autoFocus()
  */
 void Model::setViewCoordinate()
 {
-    // camera = cameraPoint;
-    // Zvp = ZviewPlane;
-    // Zprp = zprp;
-    // scaleFactor = scalefactor;
-    // dp = Zprp - Zvp;
-
     n = (camera - lookAt).unitVector();
     u = (viewUp.crossProduct(n)).unitVector();
     v = n.crossProduct(u);
@@ -143,6 +137,19 @@ void Model::viewTransform()
     tempViewV.printData();
     std::cout<<std::endl<<std::endl;
 */
+}
+
+Vector3d Model::viewTransform(Vector3d &vt) {
+    float xt,yt,zt;
+    xt = u.x * vt.x + u.y * vt.y + u.z * vt.z - val1;
+    yt = v.x * vt.x + v.y * vt.y + v.z * vt.z - val2;
+    zt = n.x * vt.x + n.y * vt.y + n.z * vt.z - val3;
+
+    vt.x = xt * scaleFactor;
+    vt.y = yt * scaleFactor;
+    vt.z = zt * scaleFactor;
+
+    return v;
 }
 
 Vector3d Model::project(const Vector3d &v)

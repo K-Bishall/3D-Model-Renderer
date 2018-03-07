@@ -7,38 +7,41 @@ using namespace std;
 #include "SFML/Graphics.hpp"
 using namespace sf;
 
-//const int windowX = 1000, windowY = 600;    //< defined in Model.h due to technical difficulty
-
 int main()
 {
-
-    Vector3d viewRefPoint(0,0,30);
-    Vector3d lookAtPoint(0,0,0);
-    Vector3d viewUp(0,1,0);
-    float Zvp = 15;
-    float Zprp = 0;
-
     Model model;
-    const char filename[] = "model.obj";
- //   model.setViewCoordinate(viewRefPoint, lookAtPoint,viewUp,Zvp, Zprp, scaleFactor);
+    const char filename[] = "dragon1.obj";
     model.loadModel(filename);
+  //  model.printData();
+
     model.normalize();
+//    model.printData();
     model.autoFocus();
-    model.camera.y = 100;
+  //  model.camera.y += 100;
+  //  model.printData();
+ //   model.camera = Vector3d(100,100,100);
+
     model.setViewCoordinate();
-    model.scaleFactor = 10;
+ //   model.printData();
+    model.scaleFactor = 20;
+
     model.viewTransform();
-/*
-    model.lightSource = Vector3d(1,1,1);
-    model.Ipoint = 100;
-    model.Ka = 5;
-    model.Kd = 2.5;
-    model.Ks = 10;
-    model.ns = 25;
-*/
+  //  model.printData();
+
+    model.lightSource = Vector3d(100,50,100);
+    model.Ipoint = 5;
+    model.Iamb = 1;
+    model.Ka = 0.5;
+    model.Kd = 1;
+    model.Ks = 0.9;
+    model.ns = 10;
+
+  //  model.rotate(30);
+  //  model.printData();
+
     RenderWindow window;
     window.create(VideoMode(windowX,windowY),"3d Model Renderer");
-    window.setFramerateLimit(30);
+    window.setFramerateLimit(10);
     window.setKeyRepeatEnabled(false);
 
  //   model.rotate(60);
@@ -54,8 +57,8 @@ int main()
 
 
         window.clear(Color::Black);
-      //  model.rotate(-2);
-        //model.renderModel();
+        model.rotate(-2);
+        model.renderModel();
         model.drawModel(window);
         window.display();
     }
