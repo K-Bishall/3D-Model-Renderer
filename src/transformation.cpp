@@ -29,18 +29,23 @@ void Model::rotate(float angle)
     float cosA = cos(angle);
     float sinA = sin(angle);
 
-    Vector3d tempV;
+    Vector3d center((xmax-xmin)/2,(ymax-ymin)/2,(zmax-zmin)/2);
+    std::cout<<"cos "<<cosA<<" sin "<<sinA<<std::endl<<std::endl;
+
     float x,z;
     int i;
     for(i=0; i<vertexCount; i++)
     {
-        tempV = vertexTable[i];
-        z = tempV.z * cosA - tempV.x * sinA;
-        x = tempV.z * sinA + tempV.x * cosA;
+        Vector3d &v = vertexTable[i];
+        v.printData();std::cout<<std::endl<<std::endl;
+        v = v - center;
+        z = v.z * cosA - v.x * sinA;
+        x = v.z * sinA + v.x * cosA;
 
-        tempV.z = z;
-        tempV.x = x;
-        vertexTable[i] = tempV;
+        v.z = z;
+        v.x = x;
+        v = v + center;
+        v.printData();
+        std::cout<<std::endl;
     }
-    return;
 }

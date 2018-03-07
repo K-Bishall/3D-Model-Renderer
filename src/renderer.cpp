@@ -48,9 +48,9 @@ void Model::render(int fcountMin, int fcountMax)
     for(i = fcountMin; i < fcountMax; i++)
     {
         f = faceTable[i];
-        v0 = project(vertexTable[f.v0]);
-        v1 = project(vertexTable[f.v1]);
-        v2 = project(vertexTable[f.v2]);
+        v0 = project(vertexTable[f.v0]); //v0.printData(); std::cout<<std::endl;
+        v1 = project(vertexTable[f.v1]); //v1.printData(); std::cout<<std::endl;
+        v2 = project(vertexTable[f.v2]); //v1.printData(); std::cout<<std::endl;
 
         bbox = getBoundry(v0,v1,v2);
         yMin = bbox.yMin, yMax = bbox.yMax, xMin = bbox.xMin, xMax = bbox.xMax;

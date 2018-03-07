@@ -16,18 +16,13 @@ void Model::normalize ()
     float sx = xvmax / (xmax - xmin);
     float sy = yvmax / (ymax - ymin);
     float sz = zvmax / (zmax - zmin);
-    cout<<xmax<<" "<<xmin<<" "<<ymax<<" "<<ymin<<" "<<zmax<<" "<<zmin<<endl<<endl;
 
     int i;
-    // cout<<"vcount "<<vertexCount<<endl<<endl;
     for(i = 0; i < vertexCount; i++) {
         Vector3d &v = vertexTable[i];
-        // cout<<"sx "<<sx<<" sy "<<sy<<" sz "<<sz<<endl;
         v.x = (v.x - xmin) * sx;
         v.y = (v.y - ymin) * sy;
         v.z = (v.z - zmin) * sz;
-
-        cout<<"vn "<<v.x<<" "<<v.y<<" "<<v.z<<endl;
     }
 
     //At this point our model is defined in 100x100x100 cube
@@ -119,7 +114,7 @@ void Model::viewTransform()
         vt.y = yt * scaleFactor;
         vt.z = zt * scaleFactor;
 
-        cout<<"vt "<<xt<<" "<<yt<<" "<<zt<<endl;
+        // cout<<"vt "<<xt<<" "<<yt<<" "<<zt<<endl;
     }
 
     xt = u.x * xmax + u.y * ymax + u.z * zmax - val1;
@@ -136,8 +131,8 @@ void Model::viewTransform()
     Zvp = (Zprp - zmax)/2;
     dp = Zprp - Zvp;
 
-    cout<<"max "<<xmax<<" "<<ymax<<" "<<zmax<<endl;
-    cout<<"min "<<xmin<<" "<<ymin<<" "<<zmin<<endl;
+    // cout<<"max "<<xmax<<" "<<ymax<<" "<<zmax<<endl;
+    // cout<<"min "<<xmin<<" "<<ymin<<" "<<zmin<<endl;
 
     // tempViewV.x *= scaleFactor;
     // tempViewV.y *= scaleFactor;
@@ -164,7 +159,7 @@ Vector3d Model::project(const Vector3d &v)
     yp += windowY/2;
     // v.y = -v.y;
 
-    cout<<"vp "<<v.x<<" "<<v.y<<" "<<v.z<<endl;
+    // cout<<"vp "<<v.x<<" "<<v.y<<" "<<v.z<<endl;
     return Vector3d(xp,yp,zp);
 }
 

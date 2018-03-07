@@ -17,16 +17,17 @@ int main()
     Vector3d viewUp(0,1,0);
     float Zvp = 15;
     float Zprp = 0;
-    float scaleFactor = 120;
 
     Model model;
     const char filename[] = "model.obj";
  //   model.setViewCoordinate(viewRefPoint, lookAtPoint,viewUp,Zvp, Zprp, scaleFactor);
     model.loadModel(filename);
     model.normalize();
- //   model.autoFocus();
-   // model.setViewCoordinate();
-    //model.viewTransform();
+    model.autoFocus();
+    model.camera.y = 100;
+    model.setViewCoordinate();
+    model.scaleFactor = 10;
+    model.viewTransform();
 /*
     model.lightSource = Vector3d(1,1,1);
     model.Ipoint = 100;
@@ -40,7 +41,9 @@ int main()
     window.setFramerateLimit(30);
     window.setKeyRepeatEnabled(false);
 
- /*   model.renderModel();
+ //   model.rotate(60);
+    model.renderModel();
+
 
     while(window.isOpen())
     {
@@ -51,12 +54,12 @@ int main()
 
 
         window.clear(Color::Black);
-        //model.rotate(2);
+      //  model.rotate(-2);
         //model.renderModel();
         model.drawModel(window);
         window.display();
     }
-    */
+
 
 return 0;
 }

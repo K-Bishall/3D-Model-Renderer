@@ -80,7 +80,6 @@ bool Model::loadModel(const char* modelPath){
         }
 
     }
-    cout<<xmax<<" "<<xmin<<" "<<ymax<<" "<<ymin<<" "<<zmax<<" "<<zmin<<endl;
     fclose(file);
     return true;
 }
