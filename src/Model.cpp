@@ -10,7 +10,11 @@ using std::endl;
 #include "Face.h"
 
 Model::Model()
-{}
+{
+    //initialize variables
+    scaleFactor = 1;
+    viewUp = Vector3d(0,1,0);
+}
 
 //-----BEFORE CALLING loadModel CALL setViewCoordinate-----//
 /**
@@ -24,15 +28,20 @@ Model::Model()
 bool Model::loadModel(const char* modelPath){
 
     vertexCount=0,normalCount=0,faceCount=0;
-    Vector3d tempV, tempN;
-    Vector3d tempViewVertex;
-    Face tempFace;
+
+    float x,y,z;
+    float nx,ny,nz;
+    int v0,v1,v2,n0,n1,n2;
+
+    xmin = ymin = zmin = INF;
+    xmax = ymax = zmax = -INF;
 
     FILE * file = fopen(modelPath, "r");
     if( file == NULL ){
         std::cerr<<"File cannot open"<<endl;
         return false;
     }
+
 
     while(1){
         char lineHeader[1024];
@@ -42,31 +51,36 @@ bool Model::loadModel(const char* modelPath){
             break;
 
         if (strcmp(lineHeader, "v" ) == 0 ){
-            fscanf(file, "%f %f %f\n", &tempV.x, &tempV.y, &tempV.z);
+            fscanf(file, "%f %f %f\n", &x, &y, &z);
 
-            vertexTable.push_back(tempV);
+            xmax = std::max(xmax,x); ymax = std::max(ymax,y); zmax = std::max(zmax,z);
+            xmin = std::min(xmin,x); ymin = std::min(ymin,y); zmin = std::min(zmin,z);
+
+            vertexTable.push_back(Vector3d(x,y,z));
             vertexCount++;
         }
 
         //'vn' is normal vector to the vertex and may not be unit vectors
         else if(strcmp(lineHeader, "vn")==0){
-            fscanf(file, "%f %f %f\n", &tempN.x, &tempN.y, &tempN.z);
-            normalTable.push_back(tempN);
+            fscanf(file, "%f %f %f\n", &nx, &ny, &nz);
+            normalTable.push_back(Vector3d(nx,ny,nz));
             normalCount++;
         }
 
         //'f' for faces
         else if(strcmp(lineHeader,"f")==0){
-            int v1I,v2I,v3I;
-            int n1I, n2I,n3I;
-            fscanf(file,"%d//%d %d//%d %d//%d", &v1I,&n1I,&v2I,&n2I,&v3I,&n3I);
 
-            tempFace = Face(v1I-1,v2I-1,v3I-1, n1I-1,n2I-1,n3I-1);
-            faceTable.push_back(tempFace);
+            fscanf(file,"%d//%d %d//%d %d//%d", &v0, &n0, &v1, &n1, &v2, &n2);
+
+            v0--; v1--; v2--;
+            n0--; n1--; n2--;
+
+            faceTable.push_back(Face(v0,v1,v2,n0,n1,n2));
             faceCount++;
         }
 
     }
+    cout<<xmax<<" "<<xmin<<" "<<ymax<<" "<<ymin<<" "<<zmax<<" "<<zmin<<endl;
     fclose(file);
     return true;
 }

@@ -12,7 +12,7 @@
 class Face
 {
 public:
-    int v0, n0, v1, n1, v2, n2;    //< Three vertices of a face along with their normal
+    int v0, v1, v2, n0, n1, n2;    //< Three vertices of a face along with their normal
 
 public:
     Face();

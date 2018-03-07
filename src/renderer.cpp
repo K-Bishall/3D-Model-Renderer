@@ -28,7 +28,7 @@ void Model::render(int fcountMin, int fcountMax)
 //--variables for interpolation and z buffer--//
     float area, w0, w1, w2;
     float pz; //< depth of point P(x,y)
-
+/*
 //--variables for illumination and shading--//
     lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
     Vector3d N; //< normal at the point
@@ -39,7 +39,8 @@ void Model::render(int fcountMin, int fcountMax)
     float Iconst = Ka * Iamb; //< this is constant for all points
     float dL; //< distance between point and light source
     float Ip; //< intensity at the point
-
+    Vector3d viewer = viewTransform(viewRef);
+*/
 
     int r = 139, g = 0, b = 139; //< RGB value for color -- FOR NOW THE MODEL IS CONSIDERED TO HAVE SINGLE COLOR
     int r1,g1,b1;
@@ -47,9 +48,9 @@ void Model::render(int fcountMin, int fcountMax)
     for(i = fcountMin; i < fcountMax; i++)
     {
         f = faceTable[i];
-        v0 = viewTransform(vertexTable[f.v0]); project(v0);
-        v1 = viewTransform(vertexTable[f.v1]); project(v1);
-        v2 = viewTransform(vertexTable[f.v2]); project(v2);
+        v0 = project(vertexTable[f.v0]);
+        v1 = project(vertexTable[f.v1]);
+        v2 = project(vertexTable[f.v2]);
 
         bbox = getBoundry(v0,v1,v2);
         yMin = bbox.yMin, yMax = bbox.yMax, xMin = bbox.xMin, xMax = bbox.xMax;
@@ -92,7 +93,7 @@ void Model::render(int fcountMin, int fcountMax)
                         index = py*windowX + px;
                         //update zBuffer
                         zBuffer[index] = pz;
-
+/*
                         // And Now we are going to calculate INTENSITY AT THE POINT
                         //Let's first find out Interpolated Normal at the point
                         n0 = normalTable[f.n0];
@@ -104,22 +105,24 @@ void Model::render(int fcountMin, int fcountMax)
 
                         //Calculate the stuffs
                         P = Vector3d(px,py,pz); toView(P);
-                        // V = viewRef - P;
-                        L = lightSource - P;
-                        H = (L + V).unitVector();
+                       // P.printData(); std::cout<<std::endl;
+                        N = N.unitVector();
+                        L = (lightSource - P);
                         dL = L.getMagnitude();
-                        dL = dL * dL;
-                        // std::cout<<dL<<std::endl;
+                        V = (viewer - P);
+                        H = (L + V).unitVector();
+                        dL = 1 + dL * dL;
+                        //std::cout<<dL<<std::endl;
                         //And here is the Intensity at the point
-                        Ip = Iconst + (Kd * Ipoint / dL * N.dotProduct(L)) + (Ks * Ipoint * pow(N.dotProduct(H),ns));
+                        Ip = Ka + (Kd * Ipoint / dL * N.dotProduct(L.unitVector())) + (Ks * Ipoint / dL * pow(N.dotProduct(H),ns));
                         //std::cout<<"I "<<Ip<<std::endl;
                         //Intensity of RGB
                         r1 = r * Ip;
                         g1 = g * Ip;
                         b1 = b * Ip;
-
+*/
                         //store the color in color buffer
-                        colorBuffer[index] = sf::Color(r1,g1,b1);
+                        colorBuffer[index] = sf::Color(r,g,b);
                     }
                 }
             }
@@ -144,3 +147,4 @@ void Model::drawModel(sf::RenderWindow &window)
 
     window.draw(vArray);
 }
+

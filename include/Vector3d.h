@@ -25,14 +25,13 @@ public:
 
     float getMagnitude();
     Vector3d crossProduct(const Vector3d &);
-    float dotProduct(const Vector3d &);
+    float dot(const Vector3d &);
     Vector3d unitVector();
 
     Vector3d operator - (const Vector3d &);
     Vector3d operator + (const Vector3d &);
-    Vector3d operator * (const Vector3d &); //cross product
     Vector3d operator / (float scalar); //< divide by a scalar
-    Vector3d multiply(float scalar);
+    Vector3d operator * (float scalar); //< multiply by a scalar
 
     void printData()
     {std::cout<<x<<" "<<y<<" "<<z;}

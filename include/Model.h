@@ -22,16 +22,19 @@ private:
     std::vector<Vector3d> normalTable;
     std::vector<Face> faceTable;
 
-    Vector3d viewRef;
-    float Zvp, Zprp; //< Z-VIEW POINT and Z-PROJECTION REFERENCE POINT
-    Vector3d u, v, n; //< unit vectors uvn for view plane
+    int vertexCount, faceCount, normalCount;
+    float xmax, ymax, zmax, xmin, ymin, zmin;
 
     // values calculated in world to view transform
     float h, dp, val1, val2, val3; //< calculated in setViewCoordinate and used in viewTransform
-
-    int vertexCount, faceCount, normalCount;
+    Vector3d u, v, n; //< unit vectors uvn for view plane
 
 public:
+//attributes for defining view coordinate
+    Vector3d camera;
+    Vector3d lookAt;
+    Vector3d viewUp;
+    float Zvp, Zprp; //< Z-VIEW POINT and Z-PROJECTION REFERENCE POINT
     float scaleFactor; //< to scale the model to fit in window
 
 
@@ -56,15 +59,16 @@ public:
 
     bool loadModel(const char *);
 
+public:
+//-- Methods for view coordinate --//
     void rotate(float);    //< defined in transformation.cpp
-//    void rotateModel(float);
 
-    //setup viewCoordinate--takes viewRef,N and U
     //defined in viewTransform.cpp
-    void setViewCoordinate(Vector3d &, Vector3d &, Vector3d &, float, float, float);
-    //defined in viewTransform.cpp
-    Vector3d viewTransform(const Vector3d &);
-    void project(Vector3d &);
+    void normalize(); //< to  normalize the vertex
+    void autoFocus();
+    void setViewCoordinate();
+    void viewTransform();
+    Vector3d project(const Vector3d &);
     void toView(Vector3d &);
 
     void printData();

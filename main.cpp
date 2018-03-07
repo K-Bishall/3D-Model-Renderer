@@ -12,32 +12,35 @@ using namespace sf;
 int main()
 {
 
-    Vector3d viewRefPoint(0,0,5);
-    Vector3d lookAtPoint(1,1,1);
+    Vector3d viewRefPoint(0,0,30);
+    Vector3d lookAtPoint(0,0,0);
     Vector3d viewUp(0,1,0);
-    float Zvp = 10;
-    float Zprp = 3;
-    float scaleFactor = 12;
+    float Zvp = 15;
+    float Zprp = 0;
+    float scaleFactor = 120;
 
     Model model;
-    const char filename[] = "model22.obj";
-    model.setViewCoordinate(viewRefPoint, lookAtPoint,viewUp,Zvp, Zprp, scaleFactor);
+    const char filename[] = "model.obj";
+ //   model.setViewCoordinate(viewRefPoint, lookAtPoint,viewUp,Zvp, Zprp, scaleFactor);
     model.loadModel(filename);
-
-    model.lightSource = Vector3d(100,100,100);
-    model.Iamb = 10000;
-    model.Ipoint = 10000;
-    model.Ka = 0.75;
-    model.Kd = 0.95;
-    model.Ks = 0.3;
+    model.normalize();
+ //   model.autoFocus();
+   // model.setViewCoordinate();
+    //model.viewTransform();
+/*
+    model.lightSource = Vector3d(1,1,1);
+    model.Ipoint = 100;
+    model.Ka = 5;
+    model.Kd = 2.5;
+    model.Ks = 10;
     model.ns = 25;
-
+*/
     RenderWindow window;
     window.create(VideoMode(windowX,windowY),"3d Model Renderer");
     window.setFramerateLimit(30);
     window.setKeyRepeatEnabled(false);
 
-    model.renderModel();
+ /*   model.renderModel();
 
     while(window.isOpen())
     {
@@ -48,11 +51,12 @@ int main()
 
 
         window.clear(Color::Black);
-       // model.rotate(2);
+        //model.rotate(2);
         //model.renderModel();
         model.drawModel(window);
         window.display();
     }
+    */
 
 return 0;
 }

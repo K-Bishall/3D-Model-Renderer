@@ -11,8 +11,8 @@
 Vector3d Vector3d::crossProduct(const Vector3d &B)
 { return Vector3d(y*B.z - z*B.y, z*B.x - x*B.z, x*B.y - y*B.x);}
 
-float Vector3d::dotProduct(const Vector3d &B)
-{ return x * B.x + y * B.y + z * B.z;}
+float Vector3d::dot(const Vector3d &B)
+{return (x * B.x + y * B.y + z * B.z);}
 
 
 /**
@@ -39,15 +39,10 @@ Vector3d Vector3d::operator - (const Vector3d &B)
 Vector3d Vector3d::operator + (const Vector3d &B)
 {return Vector3d(x + B.x, y + B.y, z + B.z);}
 
-
-//operator * overloaded for cross product of vectors
-Vector3d Vector3d::operator * (const Vector3d &B)
-{return crossProduct(B);}
-
 //operator / overloaded for division by scalar
 Vector3d Vector3d::operator / (float scalar)
 { return Vector3d(x / scalar, y / scalar, z / scalar);}
 
 //multiply by scalar
-Vector3d Vector3d::multiply(float scalar)
+Vector3d Vector3d::operator * (float scalar)
 { return Vector3d(x * scalar, y * scalar, z * scalar);}
