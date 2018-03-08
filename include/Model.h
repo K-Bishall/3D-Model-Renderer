@@ -8,7 +8,7 @@
 #include <array>
 #include "SFML/Graphics.hpp"
 
-const int windowX = 1280, windowY = 720;
+const int windowX = 1024, windowY = 586;
 const float INF = 1.0e10;
 
 /**

@@ -46,6 +46,7 @@ void Model::autoFocus()
     lookAt = Vector3d((xmax + xmin)/2, (ymax + ymin)/2, zmax);
     viewUp = Vector3d(0,1,0);
     Zprp = camera.z;
+    lightSource = camera;
 }
 
 /**
@@ -161,7 +162,7 @@ void Model::project()
         xp += windowX/2;
         yp += windowY/2;
 
-        projectionTable[i] = Vector3d(xp,yp,zp); 
+        projectionTable[i] = Vector3d(xp,yp,zp);
     }
 }
 void Model::toView(Vector3d &v)

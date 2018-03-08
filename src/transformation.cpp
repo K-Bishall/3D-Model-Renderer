@@ -76,6 +76,10 @@ void Model::rotateZ(float angle)
 
 void Model::scale(float s)
 {
-    for(auto &v : vertexTable)
+    Vector3d center((xmax + xmin)/2,(ymax + ymin)/2,(zmax + zmin)/2);
+    for(auto &v : vertexTable) {
+        v = v - center;
         v = v.multiply(s);
+        v = v + center;
+    }
 }
