@@ -10,23 +10,23 @@ using namespace sf;
 int main()
 {
     Model model;
-    const char filename[] = "A380.obj";
+    const char filename[] = "DNA.obj";
     model.loadModel(filename);
 
     model.normalize();
     model.autoFocus();
     model.setViewCoordinate();
 
-    model.scaleFactor = 20;
+    model.scaleFactor = 40;
     model.viewTransform();
 
-    model.lightSource = Vector3d(100,100,1100);
-    model.Ipoint = 3;
+    model.lightSource = model.camera;
+    model.Ipoint = 2;
     model.Iamb = 1;
-    model.Ka = 0.9;
-    model.Kd = 1;
-    model.Ks = 0.5;
-    model.ns = 15;
+    model.Ka = 0.8;
+    model.Kd = 0.5;
+    model.Ks = 0.9;
+    model.ns = 40;
 
     RenderWindow window;
     window.create(VideoMode(windowX,windowY),"3d Model Renderer");
@@ -68,11 +68,11 @@ int main()
                         break;
 
                     case Keyboard::Up:
-                        model.lightSource.y += 100;
+                        model.lightSource.z += 100;
                         //model.rotateX(-2);
                         break;
                     case Keyboard::Down:
-                        model.lightSource.y -= 100;
+                        model.lightSource.z -= 100;
                         //model.rotateX(2);
                         break;
 
@@ -90,7 +90,9 @@ int main()
             }
 
         window.clear(Color::Black);
-       // if(r) model.rotateY(-2);
+    //   model.rotateX(-2);
+       model.rotateY(2);
+       //model.rotateZ(2);
         model.project();
         model.renderModel();
         model.drawModel(window);

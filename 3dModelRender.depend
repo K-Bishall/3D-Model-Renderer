@@ -50,13 +50,13 @@
 	<cmath>
 	<iostream>
 
-1520508682 source:d:\projects\graphics\main.cpp
+1520522790 source:d:\projects\graphics\main.cpp
 	<iostream>
 	"Model.h"
 	"Vector3d.h"
 	"SFML/Graphics.hpp"
 
-1520507936 d:\projects\graphics\include\model.h
+1520523343 d:\projects\graphics\include\model.h
 	"Face.h"
 	"Vector3d.h"
 	<vector>
@@ -120,7 +120,7 @@
 	"Model.h"
 	<algorithm>
 
-1520508820 source:d:\projects\graphics\src\renderer.cpp
+1520522295 source:d:\projects\graphics\src\renderer.cpp
 	"Model.h"
 	<cmath>
 	<thread>
