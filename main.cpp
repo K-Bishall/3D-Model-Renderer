@@ -10,7 +10,7 @@ using namespace sf;
 int main()
 {
     Model model;
-    const char filename[] = "dragon1.obj";
+    const char filename[] = "A380.obj";
     model.loadModel(filename);
 
     model.normalize();
@@ -20,13 +20,13 @@ int main()
     model.scaleFactor = 20;
     model.viewTransform();
 
-    model.lightSource = Vector3d(100,100,100);
-    model.Ipoint = 3;
+    model.lightSource = Vector3d(00,00,00);
+    model.Ipoint = 1;
     model.Iamb = 1;
-    model.Ka = 0.55;
+    model.Ka = 0.9;
     model.Kd = 0.9;
-    model.Ks = 0.3;
-    model.ns = 10;
+    model.Ks = 0.8;
+    model.ns = 15;
 
     RenderWindow window;
     window.create(VideoMode(windowX,windowY),"3d Model Renderer");

@@ -6,17 +6,17 @@
 void Model::renderModel()
 {
     initializeBuffers();
-    lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
+  //  lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
     int fcount = faceCount;
-    std::thread t1(&render,this,0,fcount);
-    // std::thread t2(&render,this,fcount/4,fcount/2);
-    // std::thread t3(&render,this,fcount/2,fcount/4*3);
-    // std::thread t4(&render,this,fcount/4*3,fcount);
+    std::thread t1(&render,this,0,fcount/4);
+    std::thread t2(&render,this,fcount/4,fcount/2);
+    std::thread t3(&render,this,fcount/2,fcount/4*3);
+    std::thread t4(&render,this,fcount/4*3,fcount);
 
     t1.join();
-    // t2.join();
-    // t3.join();
-    // t4.join();
+    t2.join();
+    t3.join();
+    t4.join();
 }
 
 void Model::render(int fcountMin, int fcountMax)
@@ -43,6 +43,7 @@ void Model::render(int fcountMin, int fcountMax)
     Vector3d P; //< position vector of point P
     float dL; //< distance between point and light source
     float Ip; //< intensity at the point
+    float Id = 0; //< diffused intensity
     // Vector3d viewer = viewTransform(camera);
 
     // float I0, I1, I2;
@@ -112,16 +113,18 @@ void Model::render(int fcountMin, int fcountMax)
                         P = Vector3d(px + 0.5, py + 0.5, pz); toView(P);
                         N = N.unitVector();
                         L = (lightSource - P);
-                        // dL = L.getMagnitude();
+                        dL = L.getMagnitude();
                         V = (camera - P).unitVector();
                         R = N.multiply(2 * N.dot(L)) - L;
                         R = R.unitVector();
                         H = (L + V).unitVector();
                         L = L.unitVector();
-                        // dL = 1 + dL * dL;
+                        dL = 1 + dL * dL;
 
                         //And here is the Intensity at the point
-                        Ip = Iamb * Ka + (Kd * Ipoint * abs(N.dot(L))) + (Ks * Ipoint * pow(N.dot(H),ns));
+                        float dot = N.dot(L);
+                        if(dot >= 0 && dot <= 1) Id = dot;
+                        Ip = Iamb * Ka + (Kd * Ipoint / dL * Id) + (Ks * Ipoint * pow(V.dot(R),ns));
 
                         //Intensity of RGB
                         r1 = r * Ip;
