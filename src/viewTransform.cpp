@@ -89,7 +89,8 @@ void Model::viewTransform()
         vt.y = yt * scaleFactor;
         vt.z = zt * scaleFactor;
 
-        // cout<<"vt "<<xt<<" "<<yt<<" "<<zt<<endl;
+        //initialize projectionTable
+        projectionTable.push_back(Vector3d(0,0,0));
     }
 
     xt = u.x * xmax + u.y * ymax + u.z * zmax - val1;
@@ -146,9 +147,11 @@ Vector3d Model::project(const Vector3d &v)
 
 void Model::project()
 {
-    // Vector3d v;
+    Vector3d v;
     float xp,yp,zp;
-    for(auto v : vertexTable) {
+    int i;
+    for(i = 0; i < vertexCount; i++) {
+        v = vertexTable[i];
         zp = v.z;
         h = (Zprp - v.z)/dp;
         xp = v.x / h;
@@ -158,7 +161,7 @@ void Model::project()
         xp += windowX/2;
         yp += windowY/2;
 
-        projectionTable.push_back(Vector3d(xp,yp,zp));
+        projectionTable[i] = Vector3d(xp,yp,zp); 
     }
 }
 void Model::toView(Vector3d &v)

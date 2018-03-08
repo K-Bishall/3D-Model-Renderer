@@ -122,9 +122,10 @@ void Model::render(int fcountMin, int fcountMax)
                         dL = 1 + dL * dL;
 
                         //And here is the Intensity at the point
-                        float dot = N.dot(L);
-                        if(dot >= 0 && dot <= 1) Id = dot;
-                        Ip = Iamb * Ka + (Kd * Ipoint / dL * Id) + (Ks * Ipoint * pow(V.dot(R),ns));
+                      //  float dot = N.dot(L);
+                        //if(dot >= 0 && dot <= 1) 
+                      //  Id = dot;
+                        Ip = Iamb * Ka + (Kd * Ipoint / dL * abs(N.dot(L))) + (Ks * Ipoint * pow(V.dot(R),ns));
 
                         //Intensity of RGB
                         r1 = r * Ip;

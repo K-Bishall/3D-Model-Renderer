@@ -62,8 +62,10 @@ public:
 
 public:
 //-- Methods for view coordinate --//
-    void rotate(float);    //< defined in transformation.cpp
-
+    void rotateX(float);    //< defined in transformation.cpp
+    void rotateY(float);
+    void rotateZ(float);
+    void scale(float);
     //defined in viewTransform.cpp
     void normalize(); //< to  normalize the vertex
     void autoFocus();
