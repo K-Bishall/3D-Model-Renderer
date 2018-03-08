@@ -6,16 +6,17 @@
 void Model::renderModel()
 {
     initializeBuffers();
+    lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
     int fcount = faceCount;
-    std::thread t1(&render,this,0,fcount/4);
-    std::thread t2(&render,this,fcount/4,fcount/2);
-    std::thread t3(&render,this,fcount/2,fcount/4*3);
-    std::thread t4(&render,this,fcount/4*3,fcount);
+    std::thread t1(&render,this,0,fcount);
+    // std::thread t2(&render,this,fcount/4,fcount/2);
+    // std::thread t3(&render,this,fcount/2,fcount/4*3);
+    // std::thread t4(&render,this,fcount/4*3,fcount);
 
     t1.join();
-    t2.join();
-    t3.join();
-    t4.join();
+    // t2.join();
+    // t3.join();
+    // t4.join();
 }
 
 void Model::render(int fcountMin, int fcountMax)
@@ -42,8 +43,7 @@ void Model::render(int fcountMin, int fcountMax)
     Vector3d P; //< position vector of point P
     float dL; //< distance between point and light source
     float Ip; //< intensity at the point
-    lightSource = viewTransform(lightSource); //<< transform the light source along with all the vertices
-    Vector3d viewer = viewTransform(camera);
+    // Vector3d viewer = viewTransform(camera);
 
     // float I0, I1, I2;
 
@@ -53,9 +53,9 @@ void Model::render(int fcountMin, int fcountMax)
     for(i = fcountMin; i < fcountMax; i++)
     {
         f = faceTable[i];
-        v0 = project(vertexTable[f.v0]); //v0.printData(); std::cout<<std::endl;
-        v1 = project(vertexTable[f.v1]); //v1.printData(); std::cout<<std::endl;
-        v2 = project(vertexTable[f.v2]); //v1.printData(); std::cout<<std::endl;
+        v0 = projectionTable[f.v0]; //project(vertexTable[f.v0]); //v0.printData(); std::cout<<std::endl;
+        v1 = projectionTable[f.v1]; //project(vertexTable[f.v1]); //v1.printData(); std::cout<<std::endl;
+        v2 = projectionTable[f.v2]; //project(vertexTable[f.v2]); //v1.printData(); std::cout<<std::endl;
 
         bbox = getBoundry(v0,v1,v2);
         yMin = bbox.yMin, yMax = bbox.yMax, xMin = bbox.xMin, xMax = bbox.xMax;
@@ -93,9 +93,9 @@ void Model::render(int fcountMin, int fcountMax)
                     pz = 1/pz;
 
                     //check if this point is nearer to camera - if yes place its z value in zBuffer
-                    if(pz < zBuffer[py*windowX + px])
+                    index = py*windowX + px;
+                    if(pz < zBuffer[index])
                     {
-                        index = py*windowX + px;
                         //update zBuffer
                         zBuffer[index] = pz;
 
@@ -113,7 +113,7 @@ void Model::render(int fcountMin, int fcountMax)
                         N = N.unitVector();
                         L = (lightSource - P);
                         // dL = L.getMagnitude();
-                        V = (viewer - P).unitVector();
+                        V = (camera - P).unitVector();
                         R = N.multiply(2 * N.dot(L)) - L;
                         R = R.unitVector();
                         H = (L + V).unitVector();

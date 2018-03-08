@@ -21,6 +21,7 @@ private:
     std::vector<Vector3d> vertexTable;
     std::vector<Vector3d> normalTable;
     std::vector<Face> faceTable;
+    std::vector<Vector3d> projectionTable;
 
     int vertexCount, faceCount, normalCount;
     float xmax, ymax, zmax, xmin, ymin, zmin;
@@ -69,7 +70,8 @@ public:
     void setViewCoordinate();
     void viewTransform();
     Vector3d viewTransform(Vector3d &);
-    Vector3d project(const Vector3d &);
+    // Vector3d project(const Vector3d &);
+    void project();
     void toView(Vector3d &);
 
     void printData();

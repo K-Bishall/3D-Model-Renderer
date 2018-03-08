@@ -23,10 +23,6 @@ void Model::normalize ()
     else
         autoScale = vmax / (zmax - zmin);
 
-    // float sx = xvmax / (xmax - xmin);
-    // float sy = yvmax / (ymax - ymin);
-    // float sz = zvmax / (zmax - zmin);
-
     int i;
     for(i = 0; i < vertexCount; i++) {
         Vector3d &v = vertexTable[i];
@@ -68,31 +64,6 @@ void Model::setViewCoordinate()
     val1 = u.x * camera.x + u.y * camera.y + u.z * camera.z;
     val2 = v.x * camera.x + v.y * camera.y + v.z * camera.z;
     val3 = n.x * camera.x + n.y * camera.y + n.z * camera.z;
-/*
-    std::cout<<"camera ";
-    camera.printData();
-    std::cout<<std::endl;
-
-    std::cout<<"N ";
-    (camera - lookAtPoint).printData();
-    std::cout<<std::endl;
-
-    std::cout<<"V*n ";
-    (V*n).printData();
-    std::cout<<std::endl;
-
-    std::cout<<"u ";
-    u.printData();
-    std::cout<<std::endl;
-
-    std::cout<<"v ";
-    v.printData();
-    std::cout<<std::endl;
-
-    std::cout<<"n ";
-    n.printData();
-    std::cout<<std::endl;
-*/
 }
 
 
@@ -131,22 +102,14 @@ void Model::viewTransform()
     zt = n.x * xmin + n.y * ymin + n.z * zmin - val3;
     xmin = xt * scaleFactor; ymin = yt * scaleFactor; zmin = zt * scaleFactor;
 
+    for(auto &n : normalTable) {
+        xt = u.x * n.x + u.y * n.y + u.z * n.z - val1;
+        yt = v.x * n.x + v.y * n.y + v.z * n.z - val2;
+        zt = n.x * n.x + n.y * n.y + n.z * n.z - val3;
+    }
   //  Zvp = ((ymax - ymin - windowY) * Zprp + windowY * zmax) / (ymax - ymin);
     Zvp = (Zprp - zmax)/2;
     dp = Zprp - Zvp;
-
-    // cout<<"max "<<xmax<<" "<<ymax<<" "<<zmax<<endl;
-    // cout<<"min "<<xmin<<" "<<ymin<<" "<<zmin<<endl;
-
-    // tempViewV.x *= scaleFactor;
-    // tempViewV.y *= scaleFactor;
-    // tempViewV.z *= scaleFactor;
-
-/*
-    std::cout<<"View ";
-    tempViewV.printData();
-    std::cout<<std::endl<<std::endl;
-*/
 }
 
 Vector3d Model::viewTransform(Vector3d &vt) {
@@ -161,7 +124,7 @@ Vector3d Model::viewTransform(Vector3d &vt) {
 
     return v;
 }
-
+/*
 Vector3d Model::project(const Vector3d &v)
 {
 
@@ -179,7 +142,25 @@ Vector3d Model::project(const Vector3d &v)
     // cout<<"vp "<<v.x<<" "<<v.y<<" "<<v.z<<endl;
     return Vector3d(xp,yp,zp);
 }
+*/
 
+void Model::project()
+{
+    // Vector3d v;
+    float xp,yp,zp;
+    for(auto v : vertexTable) {
+        zp = v.z;
+        h = (Zprp - v.z)/dp;
+        xp = v.x / h;
+        yp = v.y / h;
+
+        //translate projected point to SFML window
+        xp += windowX/2;
+        yp += windowY/2;
+
+        projectionTable.push_back(Vector3d(xp,yp,zp));
+    }
+}
 void Model::toView(Vector3d &v)
 {
     v.x -= windowX/2;
