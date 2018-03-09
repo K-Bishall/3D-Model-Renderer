@@ -17,13 +17,13 @@ int main()
     model.autoFocus();
     model.setViewCoordinate();
 
-    model.scaleFactor = 40;
+    model.scaleFactor = 20;
     model.viewTransform();
 
-    model.lightSource = model.camera;
+    //model.lightSource = Vector3d(8000,0,-11000);
     model.Ipoint = 2;
     model.Iamb = 1;
-    model.Ka = 0.5;
+    model.Ka = 0.3;
     model.Kd = 0.5;
     model.Ks = 0.9;
     model.ns = 10;
@@ -49,42 +49,60 @@ int main()
             if(event.type == Event::KeyPressed) {
                 switch(event.key.code) {
 
-                    case Keyboard::Z:
-                        model.rotateZ(2);
-                        break;
-
-                    case Keyboard::X:
-                        model.rotateZ(-2);
-                        break;
-
                     case Keyboard::Left :
                         model.lightSource.x -= 100;
-                        //model.rotateY(-2);
                         break;
 
                     case Keyboard::Right:
                         model.lightSource.x += 100;
-                        //model.rotateY(2);
                         break;
 
                     case Keyboard::Up:
-                        model.lightSource.z += 100;
-                        //model.rotateX(-2);
+                        model.lightSource.y += 100;
                         break;
+
                     case Keyboard::Down:
+                        model.lightSource.y -= 100;
+                        break;
+
+                    case Keyboard::Z:
+                        model.lightSource.z += 100;
+                        break;
+                    case Keyboard::X:
                         model.lightSource.z -= 100;
-                        //model.rotateX(2);
                         break;
 
                     case Keyboard::Add:
-                        model.scale(1.5);
+                        model.scale(1.05);
                         break;
                     case Keyboard::Subtract:
                         model.scale(0.95);
                         break;
 
+                    case Keyboard::Numpad1:
+                        model.rotateX(2);
+                        break;
+
+                    case Keyboard::Numpad2:
+                        model.rotateX(-2);
+                        break;
+
+                    case Keyboard::Numpad4:
+                        model.rotateY(2);
+                        break;
+                    case Keyboard::Numpad5:
+                        model.rotateY(-2);
+                        break;
+                    case Keyboard::Numpad7:
+                        model.rotateZ(2);
+                        break;
+                    case Keyboard::Numpad8:
+                        model.rotateZ(-2);
+                        break;
+
                     case Keyboard::Space:
-                        r = true;
+                        if(!r) r = true;
+                        else r = false;
                         break;
                 }
             }

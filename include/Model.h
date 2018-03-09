@@ -48,6 +48,8 @@ private:
 public:
 //These are the attributes required for ILLUMINATION AND SHADING
     Vector3d lightSource;
+    sf::Color color;
+    sf::Color bgcolor;
     float Iamb; //< ambient light intensity
     float Ipoint; //< point source intensity
     float Ka, Kd, Ks; //< reflection coefficients respectively for ambient, diffused and specular reflection

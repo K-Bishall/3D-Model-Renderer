@@ -48,7 +48,7 @@ void Model::render(int fcountMin, int fcountMax)
 
     // float I0, I1, I2;
 
-    int r = 139, g = 0, b = 139; //< RGB value for color -- FOR NOW THE MODEL IS CONSIDERED TO HAVE SINGLE COLOR
+    //int r = 139, g = 0, b = 139; //< RGB value for color -- FOR NOW THE MODEL IS CONSIDERED TO HAVE SINGLE COLOR
     int r1,g1,b1;
 //-- NOW IS THE TIME TO ITERATE OVER ALL THE TRIANGLEs --//
     for(i = fcountMin; i < fcountMax; i++)
@@ -95,7 +95,7 @@ void Model::render(int fcountMin, int fcountMax)
 
                     //check if this point is nearer to camera - if yes place its z value in zBuffer
                     index = py*windowX + px;
-                    if(pz < zBuffer[index])
+                    if(pz > zBuffer[index])
                     {
                         //update zBuffer
                         zBuffer[index] = pz;
@@ -121,16 +121,13 @@ void Model::render(int fcountMin, int fcountMax)
                         L = L.unitVector();
                         dL = 1 + dL * dL;
 
-                        //And here is the Intensity at the point
-                      //  float dot = N.dot(L);
-                        //if(dot >= 0 && dot <= 1) 
-                      //  Id = dot;
+                        //calculate ambient, diffuse and specular intensity and add them
                         Ip = Iamb * Ka + (Kd * Ipoint * N.dot(L)) + (Ks * Ipoint * pow(V.dot(R),ns));
 
                         //Intensity of RGB
-                        r1 = r * Ip;
-                        g1 = g * Ip;
-                        b1 = b * Ip;
+                        r1 = color.r * Ip;
+                        g1 = color.g * Ip;
+                        b1 = color.b * Ip;
 
                         if(r1 > 255)
                             r1 = 255;

@@ -30,7 +30,13 @@ void Model::normalize ()
         v.y = (v.y - ymin) * autoScale;
         v.z = (v.z - zmin) * autoScale;
     }
-
+/*
+    for(auto &n : normalTable) {
+        n.x = (n.x - xmin) * autoScale;
+        n.y = (n.y - ymin) * autoScale;
+        n.z = (n.z - zmin) * autoScale;
+    }
+*/
     //At this point our model is defined in 100x100x100 cube
     //so
     xmax = (xmax - xmin) * autoScale;
@@ -47,6 +53,8 @@ void Model::autoFocus()
     viewUp = Vector3d(0,1,0);
     Zprp = camera.z;
     lightSource = camera;
+    color = sf::Color(139,0,139);
+    bgcolor = sf::Color::Black;
 }
 
 /**

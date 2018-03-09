@@ -13,8 +13,8 @@ void Model::initializeBuffers()
     for(i = 0; i < windowY; i++)
         for(j = 0; j < windowX; j++)
         {
-            zBuffer[i*windowX + j] = INF;
-            colorBuffer[i*windowX + j] = sf::Color(0,0,0);
+            zBuffer[i*windowX + j] = -INF;
+            colorBuffer[i*windowX + j] = bgcolor;
         }
 }
 
